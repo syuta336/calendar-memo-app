@@ -1,0 +1,46 @@
+name: Deploy Full Stack App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Node.jsのセットアップ
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # フロントエンドのビルド
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      - name: Deploy frontend (GitHub Pages)
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: frontend/dist
+
+      # バックエンドのデプロイ
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Deploy backend
+        working-directory: backend
+        run: |
+          ssh user@server 'cd /path/to/backend && git pull && npm install && pm2 restart all'
