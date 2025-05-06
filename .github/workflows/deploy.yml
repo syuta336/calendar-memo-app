@@ -24,15 +24,6 @@ jobs:
         with:
           node-version: '20'
 
-      # 環境変数の適用
-      - name: Load environment variables
-        run: |
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
-          echo "PORT=${{ secrets.PORT }}" >> $GITHUB_ENV
-          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > backend/.env  # ✅ `.env` に書き込む！
-          echo "PORT=${{ secrets.PORT }}" >> backend/.env           # ✅ `.env` に保存！
-        working-directory: backend
-
       # フロントエンドのビルド
       - name: Install frontend dependencies
         working-directory: frontend
@@ -71,7 +62,7 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           PORT: ${{ secrets.PORT }}
-        run: npm run start # ✅ `node dist/server.js` で起動！
+        run: npm run dev # ✅ `node dist/server.js` で起動！
 
       - name: Debug logs
         working-directory: backend
