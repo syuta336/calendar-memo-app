@@ -29,6 +29,9 @@ jobs:
         run: |
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
           echo "PORT=${{ secrets.PORT }}" >> $GITHUB_ENV
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > backend/.env  # ✅ `.env` に書き込む！
+          echo "PORT=${{ secrets.PORT }}" >> backend/.env           # ✅ `.env` に保存！
+        working-directory: backend
 
       # フロントエンドのビルド
       - name: Install frontend dependencies
@@ -46,11 +49,11 @@ jobs:
       - name: Deploy frontend (GitHub Pages)
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages # ← `gh-pages` にデプロイ
+          branch: gh-pages
           folder: frontend/dist
           clean: true
 
-      # バックエンドのセットアップ (ローカル)
+      # バックエンドのセットアップ
       - name: Install backend dependencies
         working-directory: backend
         run: npm ci
@@ -59,9 +62,16 @@ jobs:
         working-directory: backend
         run: rm -rf node_modules/.vite # 🚀 バージョン管理リセット
 
-      - name: Start backend locally (Production Mode)
+      - name: Build backend
         working-directory: backend
-        run: npm run dev
+        run: npm run build # ✅ TypeScript のビルドを追加！
+
+      - name: Start backend (Production Mode)
+        working-directory: backend
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          PORT: ${{ secrets.PORT }}
+        run: npm run start # ✅ `node dist/server.js` で起動！
 
       - name: Debug logs
         working-directory: backend
