@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Event from '../models/Event';
+import Event from '../models/Event.js';
 
 // 環境変数を読み込む
 dotenv.config();

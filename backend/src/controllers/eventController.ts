@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Event from '../models/Event';
+import Event from '../models/Event.js';
 
 export const getAllEvents = async (req: Request, res: Response): Promise<void> => {
   try {
