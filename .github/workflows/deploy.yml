@@ -1,4 +1,4 @@
-name: Deploy Full Stack App
+name: Deploy Full Stack App (Local)
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       # フロントエンドのビルド
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm install
+        run: npm ci
 
       - name: Build frontend
         working-directory: frontend
@@ -36,16 +36,15 @@ jobs:
       - name: Deploy frontend (GitHub Pages)
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages # ← `gh-pages` にデプロイするよう変更
-          folder: frontend/dist # ビルドしたフォルダ
+          branch: gh-pages # ← `gh-pages` にデプロイ
+          folder: frontend/dist
           clean: true
 
-      # バックエンドのデプロイ
+      # バックエンドのセットアップ (ローカル)
       - name: Install backend dependencies
         working-directory: backend
-        run: npm install
+        run: npm ci
 
-      - name: Deploy backend
+      - name: Start backend locally
         working-directory: backend
-        run: |
-          ssh user@server 'cd /path/to/backend && git pull && npm install && pm2 restart all'
+        run: npm run dev # ← ローカルで起動するため `npm run dev` を使用
