@@ -50,6 +50,11 @@ jobs:
         working-directory: backend
         run: npm ci
 
+      # バックエンドビルド
+      - name: Build backend
+        working-directory: backend
+        run: npm run build
+
       # バックエンド起動時に MONGO_URI を環境変数として渡す
       - name: Start backend (Production Mode)
         working-directory: backend
