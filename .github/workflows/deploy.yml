@@ -49,23 +49,6 @@ jobs:
         working-directory: backend
         run: npm ci
 
-      - name: Reset cache for backend
-        working-directory: backend
-        run: rm -rf node_modules/.vite # 🚀 バージョン管理リセット
-
-      - name: Build backend
-        working-directory: backend
-        run: npm run build # ✅ TypeScript のビルドを追加！
-
       - name: Start backend (Production Mode)
         working-directory: backend
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          PORT: ${{ secrets.PORT }}
         run: npm run dev # ✅ `node dist/server.js` で起動！
-
-      - name: Debug logs
-        working-directory: backend
-        run: |
-          echo "Backend server started on PORT=${PORT}"
-          echo "MongoDB URI: $MONGO_URI"
