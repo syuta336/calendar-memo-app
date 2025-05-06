@@ -36,8 +36,9 @@ jobs:
       - name: Deploy frontend (GitHub Pages)
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: main # GitHub Pagesの公開ブランチ
+          branch: gh-pages # ← `gh-pages` にデプロイするよう変更
           folder: frontend/dist # ビルドしたフォルダ
+          clean: true
 
       # バックエンドのデプロイ
       - name: Install backend dependencies
