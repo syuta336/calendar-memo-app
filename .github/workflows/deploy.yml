@@ -55,4 +55,4 @@ jobs:
         working-directory: backend
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }} # GitHub Secrets から MONGO_URI を渡す
-        run: npm run dev
+        run: npm run start
