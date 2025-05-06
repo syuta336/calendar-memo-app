@@ -13,10 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 環境変数の設定
       - name: Set up environment variables
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }} # GitHub Secrets から MONGO_URI を設定
-        run: echo "MONGO_URI is set"
+        run: |
+          echo "MONGO_URI is set: ${{ secrets.MONGO_URI }}"  # 環境変数を確認
 
       - name: Authenticate GitHub
         env:
@@ -50,6 +50,9 @@ jobs:
         working-directory: backend
         run: npm ci
 
+      # バックエンド起動時に MONGO_URI を環境変数として渡す
       - name: Start backend (Production Mode)
         working-directory: backend
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }} # GitHub Secrets から MONGO_URI を渡す
         run: npm run dev
