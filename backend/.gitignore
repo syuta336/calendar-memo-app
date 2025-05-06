@@ -1,0 +1,25 @@
+# バックエンド特有の設定
+
+# Node.jsの依存関係
+node_modules/
+
+# ログファイル
+*.log
+
+# 環境変数ファイル
+.env
+
+# MongoDBのローカルデータベースファイル
+data/
+
+# IDEやエディタの設定ファイル
+.DS_Store
+.idea/
+.vscode/
+
+# バックエンドのビルドファイル（TypeScriptやBabelでのビルドなどがある場合）
+dist/
+build/
+
+# その他、ユーザー固有のファイル（例: ユーザー設定ファイル）
+*.swp

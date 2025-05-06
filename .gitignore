@@ -1,0 +1,31 @@
+# 共通の設定
+
+# node_modules（フロントエンド、バックエンド両方に存在する）
+node_modules/
+
+# 環境変数ファイル（セキュリティや設定情報）
+.env
+.env.local
+.env.*.local
+
+# ログファイル（アプリケーションが生成するログ）
+*.log
+
+# OSやIDEの設定ファイル
+.DS_Store  # macOS特有
+.idea/      # JetBrainsのIDE設定
+.vscode/    # Visual Studio Codeの設定
+
+# ビルドされた出力（バックエンド、フロントエンド両方にある場合）
+dist/
+build/
+
+# デプロイ用の一時ファイル
+tmp/
+
+# TypeScriptのキャッシュファイル（もしあれば）
+*.tsbuildinfo
+
+# ユーザー固有のファイル（場合によっては）
+.vscode/
+
