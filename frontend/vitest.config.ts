@@ -4,6 +4,10 @@ const tsconfigPaths = import('vite-tsconfig-paths');
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
+  base: '/calendar-memo-app/',
+  build: {
+    outDir: 'dist',
+  },
   plugins: [react(), tsconfigPaths.then((plugin) => plugin.default())],
   test: {
     environment: 'jsdom', // ブラウザ環境でテストを実行
