@@ -24,10 +24,20 @@ jobs:
         with:
           node-version: '20'
 
+      # 環境変数の適用
+      - name: Load environment variables
+        run: |
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
+          echo "PORT=${{ secrets.PORT }}" >> $GITHUB_ENV
+
       # フロントエンドのビルド
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm install
+        run: npm ci
+
+      - name: Clean cache for faster build
+        working-directory: frontend
+        run: npm clean-install
 
       - name: Build frontend
         working-directory: frontend
@@ -43,8 +53,18 @@ jobs:
       # バックエンドのセットアップ (ローカル)
       - name: Install backend dependencies
         working-directory: backend
-        run: npm install
+        run: npm ci
 
-      - name: Start backend locally
+      - name: Reset cache for backend
         working-directory: backend
-        run: npm run dev # ← ローカルで起動するため `npm run dev` を使用
+        run: rm -rf node_modules/.vite # 🚀 バージョン管理リセット
+
+      - name: Start backend locally (Production Mode)
+        working-directory: backend
+        run: npm run dev
+
+      - name: Debug logs
+        working-directory: backend
+        run: |
+          echo "Backend server started on PORT=${PORT}"
+          echo "MongoDB URI: $MONGO_URI"
