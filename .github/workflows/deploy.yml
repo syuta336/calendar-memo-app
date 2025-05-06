@@ -52,4 +52,4 @@ jobs:
 
       - name: Start backend (Production Mode)
         working-directory: backend
-        run: npm run start
+        run: npm run dev
