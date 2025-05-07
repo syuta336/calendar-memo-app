@@ -60,9 +60,9 @@ jobs:
         working-directory: backend
         run: npm run build
 
-      # バックエンド起動時に MONGO_URI を環境変数として渡す
-      - name: Start backend (Production Mode)
-        working-directory: backend
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }} # GitHub Secrets から MONGO_URI を渡す
-        run: npm run start
+      # # バックエンド起動時に MONGO_URI を環境変数として渡す
+      # - name: Start backend (Production Mode)
+      #   working-directory: backend
+      #   env:
+      #     MONGO_URI: ${{ secrets.MONGO_URI }} # GitHub Secrets から MONGO_URI を渡す
+      #   run: npm run start
