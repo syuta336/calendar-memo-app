@@ -29,6 +29,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Set environment variables
+        run: echo "VITE_API_URL=${{ vars.VITE_API_URL }}" >> $GITHUB_ENV
+
       # フロントエンドビルド
       - name: Install frontend dependencies
         working-directory: frontend
