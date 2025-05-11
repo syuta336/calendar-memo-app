@@ -3,6 +3,7 @@ import axios from 'axios';
 import Calendar from 'react-calendar';
 import AddModal from './AddModal';
 import EditModal, { EditEventDatas } from './EditModal';
+import apiInstance from '@/api/apiInstance';
 
 export interface EventDatas {
   id: string;
@@ -43,7 +44,9 @@ const CalendarComponent = () => {
   useEffect(() => {
     const fetchDate = async () => {
       try {
-        const response = await axios.get(apiUrl);
+        const response = await apiInstance.get('/api/events', {
+          withCredentials: true, // 必要なら CORS の認証情報を送信
+        });
         if (response && response.data) {
           setDatas(response.data);
         } else {
@@ -68,7 +71,7 @@ const CalendarComponent = () => {
   const handleAddData = async (newEventDatas: AddEventDates) => {
     console.log('toggleAddModal called');
     try {
-      const response = await axios.post(apiUrl, newEventDatas, {
+      const response = await apiInstance.post('/api/events', newEventDatas, {
         headers: { 'Content-Type': 'application/json' },
       });
       setDatas((prev) => [...prev, response.data]);
@@ -81,7 +84,7 @@ const CalendarComponent = () => {
     const { event } = editData;
 
     try {
-      const response = await axios.patch(`${apiUrl}/${editData.id}`, { event });
+      const response = await apiInstance.patch(`/api/events/${editData.id}`, { event });
 
       if (response.status === 200) {
         console.log(response.data);
@@ -99,7 +102,7 @@ const CalendarComponent = () => {
     const isConfirmed = window.confirm('この予定を削除してもよいですか？');
     if (isConfirmed) {
       try {
-        const response = await axios.delete(`${apiUrl}/${eventId}`);
+        const response = await apiInstance.delete(`/api/events/${eventId}`);
         console.log('Event deleted: ', response.data);
         setDatas((prev) => prev?.filter((data) => data.id !== eventId));
       } catch (error) {
